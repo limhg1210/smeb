@@ -1,0 +1,16 @@
+# Local files
+*.idea/
+*.icloud
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.json
+db.sqlite3
+media/
+smeb/settings/security.py

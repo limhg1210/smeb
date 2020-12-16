@@ -1,0 +1,13 @@
+# Regenerate secret key on https://miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = '7td(%%pa7pn-m@n%1yz2ohl49!=f*o1cs86wnk7a+-!9z=-6jy'
+
+# Database (MySQL)
+DATABASE_NAME = 'django'
+DATABASE_USER = 'django'
+DATABASE_PASSWORD = 'django'
+
+# Email (Optional)
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
