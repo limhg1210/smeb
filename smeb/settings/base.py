@@ -24,6 +24,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'simple_history',
     'drf_yasg',
+
+    # custom
+    'layout',
 ]
 
 MIDDLEWARE = [
