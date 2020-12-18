@@ -55,7 +55,11 @@ jQuery(document).ready(function($) {
 		if (windowWidth<1010) { 
 			$('body').removeClass('open'); 
 			if (windowWidth<760){ 
-				$('#left-panel').slideToggle(); 
+				$('#left-panel').slideToggle(200, 'swing', function() {
+					if ($('#left-panel').css('display') === 'none') {
+						$('#left-panel').css('display', '')
+					}
+				});
 			} else {
 				$('#left-panel').toggleClass('open-menu');  
 			} 
