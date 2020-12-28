@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # custom
+    'api',
     'layout',
 ]
 

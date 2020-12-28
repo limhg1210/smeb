@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 
 
-class IndexView(TemplateView):
-    template_name = 'layout/index.html'
+# todo1: 레이아웃 완성 후 삭제
+class LayoutView(TemplateView):
+    template_name = 'layout/layout.html'

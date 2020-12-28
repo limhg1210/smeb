@@ -345,9 +345,6 @@ Googel Fonts  */
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease; }
 
-* {
-  display: none !important; }
-
 body {
   display: table;
   font-family: "Open Sans", sans-serif;
@@ -397,6 +394,9 @@ button:focus {
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
   outline: 0; }
+
+.btn.disabled, .btn:disabled {
+  cursor: not-allowed; }
 
 img {
   max-width: 100%; }
@@ -508,8 +508,7 @@ canvas {
     background-color: #f1f2f7;
     font-size: 14px;
     color: #9aa0a4;
-    padding: 14px 20px;
-    display: table; }
+    padding: 14px 20px; }
     .messenger-box .inner-box .name {
       font-size: 16px;
       padding-bottom: 10px; }
@@ -526,8 +525,7 @@ canvas {
   .messenger-box .msg-sent .avatar {
     float: right; }
   .messenger-box .msg-sent .msg-box {
-    margin-left: 0;
-    margin-right: 20px; }
+    margin-right: 85px; }
   .messenger-box .msg-sent .inner-box:after {
     left: inherit;
     right: -18px;
@@ -945,19 +943,28 @@ header .form-inline {
       font-size: 16px;
       height: inherit;
       margin-right: 0 !important;
-      padding: 10px 36px 10px 15px;
+      padding: 10px 80px 10px 15px;
       width: 100%; }
     header .form-inline .search-form input[type="text"].active,
     header .form-inline .search-form input[type="text"]:focus {
       border-color: rgba(0, 0, 0, 0.125);
       outline: 0; }
-    header .form-inline .search-form button {
+    header .form-inline .search-form .search-submit {
       background: transparent;
       border: none;
       color: #fff;
       font-size: 16px;
       position: absolute;
-      right: 15px;
+      right: 40px;
+      top: 50%;
+      margin-top: -14px !important; }
+    header .form-inline .search-form .search-close {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      position: absolute;
+      right: 10px;
       top: 50%;
       margin-top: -14px !important; }
     header .form-inline .search-form button:active,
@@ -1599,12 +1606,6 @@ header .form-inline {
   padding: 10px 0 0 35px;
   color: #fff; }
 
-.black-ribon {
-  background: url("../../images/twitter_corner_black.png") no-repeat; }
-
-.blue-ribon {
-  background: url("../../images/twitter_corner_blue.png") no-repeat; }
-
 .twt-feed .wtt-mark {
   color: rgba(255, 255, 255, 0.15);
   font-size: 160px;
@@ -1655,7 +1656,7 @@ header .form-inline {
   vertical-align: middle;
   -webkit-transition: all .15s ease-in-out;
   transition: all .15s ease-in-out;
-  border-radius: 0;
+  border-radius: 3;
   cursor: pointer; }
 
 /* Icons */
@@ -2509,4 +2510,10 @@ footer.site-footer {
   #cellPaiChart #pieLabel0 {
     left: inherit !important;
     right: 20px !important; }
+
 /*# sourceMappingURL=style.css.map */
+
+/* Custom CSS */
+.cursor-pointer {
+  cursor: pointer;
+}
