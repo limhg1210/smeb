@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # custom
     'api',
     'layout',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,10 @@ STATIC_ROOT = join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
+
+# abstract user 모델을 상속받아 사용할 user model
+
+AUTH_USER_MODEL = 'users.User'
 
 # Rest framework
 
