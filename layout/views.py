@@ -8,10 +8,10 @@ class LayoutView(TemplateView):
 
 
 # drag n drop file upload snippet
-def snpt_dragndrop(request):
+def snippet_dragndrop(request):
     if request.method == 'POST':
         print(request.POST)
         print(request.FILES)
-        return redirect('layout:snpt_dragndrop')
+        return redirect('layout:snippet_dragndrop')
 
-    return render(request, 'layout/snpt_dragndrop.html')
+    return render(request, 'layout/snippet_dragndrop.html')
