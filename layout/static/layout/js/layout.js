@@ -1,6 +1,6 @@
-$.noConflict();
+// $.noConflict();
 
-jQuery(document).ready(function ($) {
+$(document).ready(function () {
 
   "use strict";
 
@@ -73,15 +73,6 @@ jQuery(document).ready(function ($) {
   });
 
 
-  // Logo Image
-  $.ajax({
-    url: '/api/layout/setting/1',
-    success: function (data) {
-      $("#logoImg").html('<img src="' + data['logo_img'] + '" alt="Logo">');
-    }
-  })
-
-
   // Load Resize
   $(window).on("load resize", function (event) {
     var windowWidth = $(window).width();
@@ -90,8 +81,21 @@ jQuery(document).ready(function ($) {
     } else {
       $('body').removeClass('small-device');
     }
-
   });
 
 
+  // Logo Image
+  $.ajax({
+    url: '/api/layout/setting/1',
+    success: function (data) {
+      $("#logoImg").html('<img src="' + data['logo_img'] + '" alt="Logo">');
+    }
+  })
 });
+
+
+// global usage function
+function alert_msg(message) {
+  alert(message);
+  return false;
+}

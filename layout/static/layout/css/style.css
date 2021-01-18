@@ -365,7 +365,7 @@ p:focus {
 a, button {
   text-decoration: none;
   outline: none !important;
-  color: #878787;
+  color: #007bff;
   -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease; }
 
@@ -2516,4 +2516,8 @@ footer.site-footer {
 /* Custom CSS */
 .cursor-pointer {
   cursor: pointer;
+}
+
+.form-control-label {
+  font-weight: bold;
 }

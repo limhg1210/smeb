@@ -1,0 +1,88 @@
+{% extends 'layout/layout.html' %}
+
+{% block contents %}
+  <div class="card">
+    <div class="card-header">
+      <strong>직원 조회</strong>
+    </div>
+
+    <div class="card-body card-block">
+      <div class="mb-3">
+        <div id="image_container" class="m-auto" style="width: 150px; height: 150px;">
+          <img src="/media/{{ object.photo }}" alt="user profile photo"
+               style="width: 150px; height: 150px">
+        </div>
+      </div>
+
+      <div class="row d-flex align-content-center flex-wrap">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <table class="table text-center">
+            <tbody>
+              <tr>
+                <th style="width: 30%">ID</th>
+                <td style="width: 70%">{{ object.username }}</td>
+              </tr>
+              <tr>
+                <th>비밀번호</th>
+                <td><button type="button" class="btn btn-info">비밀번호변경</button></td>
+              </tr>
+              <tr>
+                <th>성함</th>
+                <td>{{ object.name }}</td>
+              </tr>
+              <tr>
+                <th>닉네임</th>
+                <td>{{ object.nickname | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>부서</th>
+                <td>{{ object.department.name | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>직책</th>
+                <td>{{ object.duty | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>직위</th>
+                <td>{{ object.position.name | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>전화번호</th>
+                <td>{{ object.phone | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>이메일</th>
+                <td>{{ object.email | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>입사일</th>
+                <td>{{ object.join_date | default_if_none:'' }}</td>
+              </tr>
+              <tr>
+                <th>퇴사일</th>
+                <td>{{ object.leave_date | default_if_none:'' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="text-right mt-3">
+            <button type="button" class="btn btn-secondary" onclick="history.back()">이전</button>
+            {#          <button type="button" class="btn btn-success ml-2" onclick="postUser()">등록</button>#}
+            <a href="/users/user-update/{{ object.pk }}/" class="btn btn-success ml-2">수정</a>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script %}
+  <script>
+
+  </script>
+{% endblock %}

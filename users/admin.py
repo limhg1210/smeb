@@ -13,6 +13,8 @@ class CustomUserAdmin(UserAdmin):
         'author', 'status',
     )
 
+    UserAdmin.fieldsets[3][1]['fields'] = ('last_login',)
+
     UserAdmin.add_fieldsets += (
         ('추가정보', {'fields': (
             'name', 'nickname', 'department', 'position', 'duty',

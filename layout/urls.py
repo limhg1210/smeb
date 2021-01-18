@@ -6,5 +6,5 @@ app_name = 'layout'
 
 urlpatterns = [
     path('', views.LayoutView.as_view(), name='layout'),
-    path('snpt_dragndrop', views.snpt_dragndrop, name='snpt_dragndrop'),
+    path('snippet_dragndrop', views.snippet_dragndrop, name='snippet_dragndrop'),
 ]

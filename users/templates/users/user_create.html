@@ -1,0 +1,230 @@
+{% extends 'layout/layout.html' %}
+
+{% block contents %}
+  <div class="card">
+    <div class="card-header">
+      <strong>직원 등록</strong>
+    </div>
+
+    <div class="card-body card-block">
+      <form method="post" id="user_form">
+        {% csrf_token %}
+        <div class="mb-3">
+          <div id="image_container" class="m-auto" style="width: 150px; height: 150px;">
+            <img src="/media/default/profile_photo.png" alt="default profile photo"
+                 style="width: 150px; height: 150px">
+          </div>
+        </div>
+
+        <div class="mb-5 text-center">
+          <label class="btn btn-info mb-0">
+            <span>업로드</span>
+            {{ form.photo }}
+          </label>
+          <button type="button" class="btn btn-secondary ml-2" onclick="setDefaultPhotoImage()">
+            기본값
+          </button>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.username.id_for_label }}" class="form-control-label">ID <i class="fas fa-star text-info"></i></label>
+              {{ form.username }}
+              {{ form.username.errors }}
+              <span id="id_username_error" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.password.id_for_label }}" class="form-control-label">비밀번호 <i class="fas fa-star text-info"></i></label>
+              {{ form.password }}
+              {{ form.password.errors }}
+              <span id="id_password_error" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.re_password.id_for_label }}" class="form-control-label">비밀번호 확인 <i class="fas fa-star text-info"></i></label>
+              {{ form.re_password }}
+              {{ form.re_password.errors }}
+              <span id="id_password2_error" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.name.id_for_label }}" class="form-control-label">성함 <i class="fas fa-star text-info"></i></label>
+              {{ form.name }}
+              {{ form.name.errors }}
+              <span id="id_name_error" class="text-danger"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.nickname.id_for_label }}" class="form-control-label">닉네임</label>
+              {{ form.nickname }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.nickname.id_for_label }}" class="form-control-label">부서</label>
+              {{ form.department }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.duty.id_for_label }}" class="form-control-label">직책</label>
+              {{ form.duty }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.position.id_for_label }}" class="form-control-label">직위</label>
+              {{ form.position }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.phone.id_for_label }}" class="form-control-label">전화번호</label>
+              {{ form.phone }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.email.id_for_label }}" class="form-control-label">이메일</label>
+              {{ form.email }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.join_date.id_for_label }}" class="form-control-label">입사일</label>
+              {{ form.join_date }}
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="{{ form.leave_date.id_for_label }}" class="form-control-label">퇴사일</label>
+              {{ form.leave_date }}
+            </div>
+          </div>
+
+          {{ form.status }}
+        </div>
+
+        <div class="text-right mt-3">
+          <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+{#          <button type="button" class="btn btn-success ml-2" onclick="postUser()">등록</button>#}
+          <button type="submit" class="btn btn-success ml-2">등록</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script %}
+  <script>
+    function setPhotoImage(event) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const img = document.createElement("img");
+        img.setAttribute("src", event.target.result);
+        document.querySelector("#image_container").innerHTML = '';
+        document.querySelector("#image_container").appendChild(img);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function setDefaultPhotoImage() {
+      document.getElementById("id_photo").value = '';
+      document.getElementById("image_container").innerHTML = `
+        <img src="/media/default/profile_photo.png" alt="default profile photo"
+             style="width: 150px; height: 150px">
+      `;
+    }
+
+    function usernameValidator() {
+      const min_length = 4;
+      const id_username = document.getElementById('id_username');
+      const id_username_error = document.getElementById('id_username_error');
+
+      if (id_username.value.length < min_length) {
+        id_username_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
+        return false;
+      } else {
+        id_username_error.innerText = '';
+        return true;
+      }
+    }
+
+    function passwordValidator() {
+      const min_length = 4;
+      const id_password = document.getElementById('id_password');
+      const id_password_error = document.getElementById('id_password_error');
+      const id_password2 = document.getElementById('id_password2');
+      const id_password2_error = document.getElementById('id_password2_error');
+
+      let result = true
+      if (id_password.value.length < min_length) {
+        id_password_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
+        result = false;
+      } else {
+        id_password_error.innerText = '';
+      }
+
+      if (id_password2.value.length < min_length) {
+        id_password2_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
+        result = false;
+      } else {
+        id_password2_error.innerText = '';
+      }
+
+      if (id_password.value.length > 0 && id_password2.value.length > 0) {
+        if (id_password.value !== id_password2.value) {
+          id_password2_error.innerText = '* 비밀번호가 일치하지 않습니다.';
+          result = false;
+        } else {
+          id_password2_error.innerText = '';
+        }
+      }
+      return result;
+    }
+
+    function nameValidator() {
+      const id_name = document.getElementById('id_name');
+      const id_name_error = document.getElementById('id_name_error')
+      if (!id_name.value) {
+        id_name_error.innerText = '* 성함을 입력해주세요.';
+        return false;
+      } else {
+        id_name_error.innerText = '';
+        return true;
+      }
+    }
+
+    function postUser() {
+      if (!(usernameValidator() && passwordValidator() && nameValidator())) {
+        return false;
+      }
+
+      const form = document.getElementById('user_form');
+    }
+
+    $(document).ready(function () {
+      const id_username = document.getElementById('id_username');
+      const id_password = document.getElementById('id_password');
+      const id_password2 = document.getElementById('id_password2');
+
+      id_username.addEventListener('keyup', () => usernameValidator());
+      id_password.addEventListener('keyup', () => passwordValidator());
+      id_password2.addEventListener('keyup', () => passwordValidator());
+    })
+
+  </script>
+{% endblock %}

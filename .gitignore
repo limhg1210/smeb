@@ -12,5 +12,5 @@ __pycache__/
 *.log
 *.json
 db.sqlite3
-media/
+media/profile_photo/
 smeb/settings/security.py
