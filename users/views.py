@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView, ListView, DeleteView
 from django.views.generic.edit import FormView, UpdateView, CreateView
-from django.shortcuts import render, redirect
 
 from .forms import UserCreateForm, UserUpdateForm
 from .models import User
