@@ -30,11 +30,8 @@ class User(AbstractUser, BasicModel):
         ordering = ['-status', 'pk']
 
     def save(self, *args, **kwargs):
-        if 1 <= len(self.password) <= 16:
-            self.set_password(self.password)
-        self.is_staff = self.is_superuser
         self.is_active = self.status
-        super(User, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username

@@ -1,5 +1,9 @@
 {% extends 'layout/layout.html' %}
 
+{% block title %}
+  직원 조회
+{% endblock %}
+
 {% block contents %}
   <div class="card">
     <div class="card-header">
@@ -25,7 +29,7 @@
               </tr>
               <tr>
                 <th>비밀번호</th>
-                <td><button type="button" class="btn btn-info">비밀번호변경</button></td>
+                <td><a href="{{ change_password_url }}" class="btn btn-info">비밀번호변경</a></td>
               </tr>
               <tr>
                 <th>성함</th>
@@ -68,21 +72,12 @@
 
           <div class="text-right mt-3">
             <button type="button" class="btn btn-secondary" onclick="history.back()">이전</button>
-            {#          <button type="button" class="btn btn-success ml-2" onclick="postUser()">등록</button>#}
             <a href="/users/user-update/{{ object.pk }}/" class="btn btn-success ml-2">수정</a>
           </div>
         </div>
         <div class="col-md-2"></div>
       </div>
-
-
     </div>
   </div>
 
-{% endblock %}
-
-{% block script %}
-  <script>
-
-  </script>
 {% endblock %}

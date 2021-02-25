@@ -1,5 +1,9 @@
 {% extends 'layout/layout.html' %}
 
+{% block title %}
+  직원 수정
+{% endblock %}
+
 {% block contents %}
   <div class="card">
     <div class="card-header">
@@ -7,7 +11,7 @@
     </div>
 
     <div class="card-body card-block">
-      <form method="post" id="user_form">
+      <form id="user_form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
           <div id="image_container" class="m-auto" style="width: 150px; height: 150px;">
@@ -21,6 +25,7 @@
             <span>업로드</span>
             {{ form.photo }}
           </label>
+          <input id="id_photo_default" name="photo_default" type="hidden">
           <button type="button" class="btn btn-secondary ml-2" onclick="setDefaultPhotoImage()">
             기본값
           </button>
@@ -116,6 +121,8 @@
     </div>
   </div>
 
+  <form id="user_delete_form" action="{% url 'users:user_delete' object.pk %}" method="post">{% csrf_token %}</form>
+
 {% endblock %}
 
 {% block script %}
@@ -125,6 +132,7 @@
       reader.onload = function (event) {
         const img = document.createElement("img");
         img.setAttribute("src", event.target.result);
+        document.getElementById("id_photo_default").value = false;
         document.querySelector("#image_container").innerHTML = '';
         document.querySelector("#image_container").appendChild(img);
       };
@@ -132,6 +140,7 @@
     }
 
     function setDefaultPhotoImage() {
+      document.getElementById("id_photo_default").value = true;
       document.getElementById("id_photo").value = '';
       document.getElementById("image_container").innerHTML = `
         <img src="/media/default/profile_photo.png" alt="default profile photo"
@@ -139,34 +148,12 @@
       `;
     }
 
-    function nameValidator() {
-      const id_name = document.getElementById('id_name');
-      const id_name_error = document.getElementById('id_name_error')
-      if (!id_name.value) {
-        id_name_error.innerText = '* 성함을 입력해주세요.';
-        return false;
-      } else {
-        id_name_error.innerText = '';
-        return true;
-      }
-    }
-
     function deleteUser() {
-      if (!(nameValidator())) {
-        return false;
-      }
-
       if (confirm('정말 삭제하시겠습니까?')) {
-        document.getElementById('id_status').checked = false;
-        document.getElementById('user_form').submit();
+        document.getElementById('user_delete_form').submit();
       } else {
         return false;
       }
     }
-
-    $(document).ready(function () {
-
-    })
-
   </script>
 {% endblock %}

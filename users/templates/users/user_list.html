@@ -1,4 +1,9 @@
 {% extends 'layout/layout.html' %}
+{% load param_replace %}
+
+{% block title %}
+  직원 목록
+{% endblock %}
 
 {% block contents %}
   <div class="card">
@@ -7,14 +12,29 @@
     </div>
 
     <div class="card-body card-block">
+
+      <form method="get">
+        <div class="row form-group">
+          <div class="col col-md-12">
+            <div class="input-group">
+              <input type="text" name="q" placeholder="검색어를 입력해주세요." class="form-control">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
       <table class="table text-center">
         <thead>
           <tr>
             <th style="width: 15%">#</th>
             <th style="width: 15%">성함</th>
+            <th style="width: 15%">부서</th>
             <th style="width: 15%">직위</th>
-            <th style="width: 25%">전화번호</th>
-            <th style="width: 30%">이메일</th>
+            <th style="width: 20%">전화번호</th>
+            <th style="width: 20%">이메일</th>
           </tr>
         </thead>
         <tbody>
@@ -22,6 +42,7 @@
             <tr>
               <th><a href="/users/user-detail/{{ object.pk }}/">{{ object.username }}</a></th>
               <td>{{ object.name }}</td>
+              <td>{{ object.department | default_if_none:'' }}</td>
               <td>{{ object.position | default_if_none:'' }}</td>
               <td>{{ object.phone | default_if_none:'' }}</td>
               <td>{{ object.email | default_if_none:'' }}</td>
@@ -29,12 +50,17 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <div class="text-right">
+        <a href="/users/user-create/" class="btn btn-success">등록</a>
+      </div>
+
       <nav>
         <ul class="pagination justify-content-center">
           <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
             <a class="page-link"
               {% if page_obj.has_previous %}
-               href="?page=1"
+               href="?{% param_replace page=1 %}"
               {% else %}
                href="#" tabindex="-1"
               {% endif %}>
@@ -45,7 +71,7 @@
           <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
             <a class="page-link"
               {% if page_obj.has_previous %}
-               href="?page={{ page_obj.previous_page_number }}"
+               href="?{% param_replace page=page_obj.previous_page_number %}"
               {% else %}
                href="#" tabindex="-1"
               {% endif %}>
@@ -55,7 +81,7 @@
 
           {% for page in page_range %}
             <li class="page-item {% if page == page_obj.number %}active{% endif %}">
-              <a class="page-link" href="?page={{ page }}">
+              <a class="page-link" href="?{% param_replace page=page %}">
                 <span>{{ page }}</span>
               </a>
             </li>
@@ -64,7 +90,7 @@
           <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
             <a class="page-link"
               {% if page_obj.has_next %}
-               href="?page={{ page_obj.next_page_number }}"
+               href="?{% param_replace page=page_obj.next_page_number %}"
               {% else %}
                href="#" tabindex="-1"
               {% endif %}>
@@ -75,7 +101,7 @@
           <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
             <a class="page-link"
               {% if page_obj.has_next %}
-               href="?page={{ last_page }}"
+               href="?{% param_replace page=last_page %}"
               {% else %}
                href="#" tabindex="-1"
               {% endif %}>
@@ -84,14 +110,7 @@
           </li>
         </ul>
       </nav>
-
     </div>
   </div>
 
-{% endblock %}
-
-{% block script %}
-  <script>
-
-  </script>
 {% endblock %}

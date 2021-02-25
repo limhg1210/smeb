@@ -1,5 +1,9 @@
 {% extends 'layout/layout.html' %}
 
+{% block title %}
+  직원 등록
+{% endblock %}
+
 {% block contents %}
   <div class="card">
     <div class="card-header">
@@ -7,7 +11,7 @@
     </div>
 
     <div class="card-body card-block">
-      <form method="post" id="user_form">
+      <form id="user_form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
           <div id="image_container" class="m-auto" style="width: 150px; height: 150px;">
@@ -48,7 +52,7 @@
               <label for="{{ form.re_password.id_for_label }}" class="form-control-label">비밀번호 확인 <i class="fas fa-star text-info"></i></label>
               {{ form.re_password }}
               {{ form.re_password.errors }}
-              <span id="id_password2_error" class="text-danger"></span>
+              <span id="id_re_password_error" class="text-danger"></span>
             </div>
           </div>
           <div class="col-sm-3">
@@ -119,7 +123,6 @@
 
         <div class="text-right mt-3">
           <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
-{#          <button type="button" class="btn btn-success ml-2" onclick="postUser()">등록</button>#}
           <button type="submit" class="btn btn-success ml-2">등록</button>
         </div>
       </form>
@@ -154,7 +157,7 @@
       const id_username = document.getElementById('id_username');
       const id_username_error = document.getElementById('id_username_error');
 
-      if (id_username.value.length < min_length) {
+      if (id_username.value.length > 0 && id_username.value.length < min_length) {
         id_username_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
         return false;
       } else {
@@ -167,30 +170,30 @@
       const min_length = 4;
       const id_password = document.getElementById('id_password');
       const id_password_error = document.getElementById('id_password_error');
-      const id_password2 = document.getElementById('id_password2');
-      const id_password2_error = document.getElementById('id_password2_error');
+      const id_re_password = document.getElementById('id_re_password');
+      const id_re_password_error = document.getElementById('id_re_password_error');
 
       let result = true
-      if (id_password.value.length < min_length) {
+      if (id_password.value.length > 0 && id_password.value.length < min_length) {
         id_password_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
         result = false;
       } else {
         id_password_error.innerText = '';
       }
 
-      if (id_password2.value.length < min_length) {
-        id_password2_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
+      if (id_re_password.value.length > 0 && id_re_password.value.length < min_length) {
+        id_re_password_error.innerText = `* ${min_length}자리 이상 입력해주세요.`;
         result = false;
       } else {
-        id_password2_error.innerText = '';
+        id_re_password_error.innerText = '';
       }
 
-      if (id_password.value.length > 0 && id_password2.value.length > 0) {
-        if (id_password.value !== id_password2.value) {
-          id_password2_error.innerText = '* 비밀번호가 일치하지 않습니다.';
+      if (id_password.value.length > 0 && id_re_password.value.length > 0) {
+        if (id_password.value !== id_re_password.value) {
+          id_re_password_error.innerText = '* 비밀번호가 일치하지 않습니다.';
           result = false;
         } else {
-          id_password2_error.innerText = '';
+          id_re_password_error.innerText = '';
         }
       }
       return result;
@@ -208,22 +211,14 @@
       }
     }
 
-    function postUser() {
-      if (!(usernameValidator() && passwordValidator() && nameValidator())) {
-        return false;
-      }
-
-      const form = document.getElementById('user_form');
-    }
-
     $(document).ready(function () {
       const id_username = document.getElementById('id_username');
       const id_password = document.getElementById('id_password');
-      const id_password2 = document.getElementById('id_password2');
+      const id_re_password = document.getElementById('id_re_password');
 
       id_username.addEventListener('keyup', () => usernameValidator());
       id_password.addEventListener('keyup', () => passwordValidator());
-      id_password2.addEventListener('keyup', () => passwordValidator());
+      id_re_password.addEventListener('keyup', () => passwordValidator());
     })
 
   </script>
