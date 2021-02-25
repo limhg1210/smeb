@@ -12,7 +12,7 @@ from .models import User
 
 class UserList(LoginRequiredMixin, ListView):
     template_name = 'users/user_list.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = User.objects.filter(status=True)
