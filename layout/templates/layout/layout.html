@@ -101,12 +101,12 @@
             <div class="user-area dropdown float-right">
               <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <!-- todo1: 로그인 유저 프로필 사진 추가 -->
-                <img class="user-avatar rounded-circle" src="" alt="User Avatar">
+                <img class="user-avatar rounded-circle" src="/media/{{ request.user.photo }}" alt="User Avatar">
               </a>
 
               <div class="user-menu dropdown-menu">
                 <!-- todo1: 개인 프로필 메뉴 구성 -->
-                <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+                <a class="nav-link" href="{% url 'myprofile' %}"><i class="fa fa- user"></i>내 프로필</a>
                 <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
                 <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
                 <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
