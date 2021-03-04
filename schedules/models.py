@@ -8,10 +8,13 @@ class Workspace(BasicModel):
     title = models.CharField(max_length=256, verbose_name='제목')
     detail = models.TextField(null=True, blank=True, verbose_name='본문')
     leader = models.ForeignKey(User, on_delete=models.SET_NULL,
-                               null=True, blank=True, verbose_name='책임자')
+                               null=True, blank=True, verbose_name='책임자',
+                               related_name='workspace_leader')
+    attendees = models.ManyToManyField(User, verbose_name='참여자', blank=True,
+                                       related_name='workspace_attendees')
 
     class Meta:
-        verbose_name = '워크스페이스'
+        verbose_name = '업무'
         ordering = ['-status', 'title']
 
     def __str__(self):
@@ -37,8 +40,8 @@ class Schedule(BasicModel):
     category = models.ForeignKey(ScheduleCategory, on_delete=models.SET_NULL,
                                  null=True, blank=True, verbose_name='일정구분')
     workspace = models.ForeignKey(Workspace, on_delete=models.SET_NULL,
-                                  null=True, blank=True, verbose_name='워크스페이스')
-    attendees = models.ManyToManyField(User, verbose_name='참석자')
+                                  null=True, blank=True, verbose_name='업무')
+    attendees = models.ManyToManyField(User, verbose_name='참석자', blank=True)
 
     class Meta:
         verbose_name = '일정'

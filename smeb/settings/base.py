@@ -37,7 +37,7 @@ MIDDLEWARE = [
     # default
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -46,6 +46,7 @@ MIDDLEWARE = [
     # third-party
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
@@ -122,7 +123,7 @@ USE_L10N = False
 
 USE_TZ = False
 
-DATE_FORMAT = "y. m. d"
+DATE_FORMAT = "y. m. d."
 TIME_FORMAT = 'H:i'
 DATETIME_FORMAT = 'y. m. d. H:i'
 
@@ -222,7 +223,7 @@ LOGGING = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,

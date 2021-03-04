@@ -93,9 +93,42 @@ $(document).ready(function () {
   })
 });
 
-
 // global usage function
-function alert_msg(message) {
-  alert(message);
-  return false;
+function linebreaksbr(string) {
+  return string.replace(/(?:\r\n|\r|\n)/g, '<br>');
+}
+
+function datetimeString(string) {
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  const datetime = new Date(string);
+  const year = String(datetime.getFullYear());
+  const month = String(('0' + (datetime.getMonth() + 1)).slice(-2));
+  const date = String(('0' + (datetime.getDate())).slice(-2));
+  const day = days[datetime.getDay()];
+  const hour = String(('0' + (datetime.getHours())).slice(-2));
+  const minute = String(('0' + (datetime.getMinutes())).slice(-2));
+  return `${year}. ${month}. ${date}. (${day}) ${hour}:${minute}`
+}
+
+function todayInputString() {
+  const today = new Date();
+  const year = String(today.getFullYear());
+  const month = String(('0' + (today.getMonth() + 1)).slice(-2));
+  const date = String(('0' + (today.getDate())).slice(-2));
+  return `${year}-${month}-${date}`
+}
+
+function appendSelect(selectId, getUrl, value, text) {
+  $.ajax({
+    url: getUrl,
+    method: 'GET',
+    success: function (data) {
+      $('#' + selectId).append(`<option value="">------</option>`)
+      for (let i = 0; i < data.results.length; i++) {
+        $('#' + selectId).append(
+          `<option value='${data.results[i][value]}'>${data.results[i][text]}</option>`
+        )
+      }
+    }
+  })
 }

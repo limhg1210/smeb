@@ -16,4 +16,11 @@ urlpatterns = [
     path('users/department/<int:pk>', views.DepartmentDetail.as_view(), name='department_detail'),
     path('users/position', views.PositionList.as_view(), name='position_list'),
     path('users/position/<int:pk>', views.PositionDetail.as_view(), name='position_detail'),
+
+    # schedules
+    path('schedules/schedule', views.ScheduleList.as_view(), name='schedule_list'),
+    path('schedules/schedule/<int:pk>', views.ScheduleDetail.as_view(), name='schedule_detail'),
+    path('schedules/workspace', views.WorkspaceList.as_view(), name='workspace_list'),
+    path('schedules/schedulecategory', views.ScheduleCategoryList.as_view(), name='schedulecategory_list'),
+
 ]

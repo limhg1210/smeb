@@ -6,6 +6,11 @@
 
 {% block css %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css">
+  <style>
+      .fc-daygrid-day-number, .fc-list-day-text, .fc-list-day-side-text {
+          color: #212529
+      }
+  </style>
 {% endblock %}
 
 {% block contents %}
@@ -14,20 +19,376 @@
       <div id="calendar"></div>
     </div>
   </div>
+
+  <div class="modal fade" id="postScheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span id="postScheduleModalTitle" class="h5 modal-title">일정 등록</span>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="schedule_form">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="post_id_workspace" class="form-control-label">업무</label>
+                  <select class="form-control" id="post_id_workspace" name="workspace"></select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="post_id_category" class="form-control-label">구분</label>
+                  <select class="form-control" id="post_id_category" name="category"></select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="post_id_started_date" class="form-control-label">시작</label>
+                  <input type="hidden" class="form-control" id="post_id_started" name="started">
+                  <div class="row">
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="post_id_started_date">
+                    </div>
+                    <div class="col-6">
+                      <input type="time" class="form-control" id="post_id_started_time">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="post_id_ended_date" class="form-control-label">종료</label>
+                  <input type="hidden" class="form-control" id="post_id_ended" name="ended">
+                  <div class="row">
+                    <div class="col-6">
+                      <input type="date" class="form-control" id="post_id_ended_date">
+                    </div>
+                    <div class="col-6">
+                      <input type="time" class="form-control" id="post_id_ended_time">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="post_id_title" class="form-control-label">제목</label>
+                  <input type="text" class="form-control" id="post_id_title" name="title">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="post_id_detail" class="form-control-label">본문</label>
+                  <textarea class="form-control" id="post_id_detail" name="detail" rows="10"></textarea>
+                </div>
+              </div>
+            </div>
+            <input type="checkbox" name="status" class="d-none" id="post_id_status" checked>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+          <button id="postScheduleModalDeleteButton" type="button" class="btn btn-danger">삭제</button>
+          <button id="postScheduleModalPostButton" type="button" class="btn btn-success" onclick="createSchedule()">등록</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="retrieveScheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="h5 modal-title">일정 조회</span>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-3 text-md-center">
+              <label class="form-control-label">성함</label>
+            </div>
+            <div class="col-9">
+              <div id="retrieve_id_author"></div>
+            </div>
+            <div class="col-3 text-md-center">
+              <label class="form-control-label">업무</label>
+            </div>
+            <div class="col-9">
+              <div id="retrieve_id_workspace"></div>
+            </div>
+            <div class="col-3 text-md-center">
+              <label class="form-control-label">구분</label>
+            </div>
+            <div class="col-9">
+              <div id="retrieve_id_category"></div>
+            </div>
+            <div class="col-3 text-md-center">
+              <label class="form-control-label">시작</label>
+            </div>
+            <div class="col-9">
+              <div id="retrieve_id_started"></div>
+            </div>
+            <div class="col-3 text-md-center">
+              <label class="form-control-label">종료</label>
+            </div>
+            <div class="col-9">
+              <div id="retrieve_id_ended"></div>
+            </div>
+            <div class="col-md-3 col-xs-12 text-md-center">
+              <label class="form-control-label">제목</label>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div id="retrieve_id_title" class="mb-2"></div>
+            </div>
+            <div class="col-md-3 col-xs-12 text-md-center">
+              <label class="form-control-label">본문</label>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div id="retrieve_id_detail" class="mb-2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="filterScheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="h5 modal-title">검색 조건</span>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 
 {% block script %}
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/locales-all.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const calendarEl = document.getElementById('calendar');
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-      });
-      calendar.on('dateClick', function(info) {
-        console.log('clicked on ' + info.dateStr);
-      });
-      calendar.render();
+    const GET = JSON.parse('{{ GET | safe }}')
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'ko',
+
+      eventSources: [
+        {
+          events: function (fetchInfo, successCallback, failureCallback) {
+            $.ajax({
+              url: '{% url 'api:schedule_list' %}',
+              method: 'GET',
+              data: GET,
+              success: function (data) {
+                const events = data.results.map(scheduleToEvent);
+                successCallback(events);
+              },
+            })
+          },
+          className: 'cursor-pointer',
+        },
+      ],
+
+      eventClick: function (info) {
+        $.ajax({
+          url: '{% url 'api:schedule_detail' 0 %}'.replace('0', info.event.id),
+          method: 'GET',
+          success: function (data) {
+            if (data.author === {{ user.pk }}) {
+              openUpdateScheduleModal(data);
+            } else {
+              openRetrieveScheduleModal(data);
+            }
+          }
+        })
+      },
+
+      navLinks: true,
+      navLinkDayClick: function (date, jsEvent) {
+        openCreateScheduleModal(moment(date).format('YYYY-MM-DD'));
+      },
+
+      customButtons: {
+        createScheduleButton: {
+          text: '등록',
+          click: function () {
+            openCreateScheduleModal();
+          },
+        },
+        filterScheduleButton: {
+          text: '검색',
+          click: function() {
+            openFilterScheduleModal();
+          }
+        }
+      },
+
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listWeek filterScheduleButton createScheduleButton',
+      },
+
+      buttonText: {
+        month: '월',
+        list: '주',
+      },
     });
+
+    function scheduleToEvent(data) {
+      return {
+        id: data['id'],
+        start: data['started'],
+        end: data['ended'],
+        title: data['title']
+      }
+    }
+
+    function openCreateScheduleModal(date = null) {
+      $('#postScheduleModalTitle').text('일정 등록');
+      if (date) {
+        $('#post_id_started_date').val(date);
+        $('#post_id_ended_date').val(date);
+      } else {
+        $('#post_id_started_date').val(todayInputString());
+        $('#post_id_ended_date').val(todayInputString());
+      }
+      $('#post_id_started_time').val('09:00');
+      $('#post_id_ended_time').val('18:00');
+      $('#post_id_workspace').val('');
+      $('#post_id_category').val('');
+      $('#post_id_title').val('');
+      $('#post_id_detail').val('');
+      $('#postScheduleModalPostButton').text('등록');
+      $('#postScheduleModalPostButton').attr('onclick', 'createSchedule()');
+      $('#postScheduleModalDeleteButton').addClass('d-none');
+      $('#postScheduleModal').modal('show');
+    }
+
+    function createSchedule() {
+      $('#post_id_started').val(
+        `${$('#post_id_started_date').val()}T${$('#post_id_started_time').val()}`
+      );
+      $('#post_id_ended').val(
+        `${$('#post_id_ended_date').val()}T${$('#post_id_ended_time').val()}`
+      );
+
+      const data = $('#schedule_form').serialize();
+      $.ajax({
+        url: '{% url 'api:schedule_list' %}',
+        method: 'POST',
+        data: data,
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function (data) {
+          calendar.addEvent({
+            ...scheduleToEvent(data),
+            className: 'cursor-pointer'
+          });
+          $('#postScheduleModal').modal('hide');
+        }
+      })
+    }
+
+    function openUpdateScheduleModal(data) {
+      $('#postScheduleModalTitle').text('일정 수정');
+      $('#post_id_started_date').val(data.started.slice(0, 10));
+      $('#post_id_started_time').val(data.started.slice(11, 16));
+      $('#post_id_ended_date').val(data.ended.slice(0, 10));
+      $('#post_id_ended_time').val(data.ended.slice(11, 16));
+      $('#post_id_workspace').val(data.workspace);
+      $('#post_id_category').val(data.category);
+      $('#post_id_title').val(data.title);
+      $('#post_id_detail').val(data.detail);
+      $('#postScheduleModalPostButton').text('수정');
+      $('#postScheduleModalPostButton').attr('onclick', `updateSchedule(${data.id})`);
+      $('#postScheduleModalDeleteButton').removeClass('d-none');
+      $('#postScheduleModalDeleteButton').attr('onclick', `deleteSchedule(${data.id})`);
+      $('#postScheduleModal').modal('show');
+    }
+
+    function updateSchedule(pk) {
+      $('#post_id_started').val(
+        `${$('#post_id_started_date').val()}T${$('#post_id_started_time').val()}`
+      );
+      $('#post_id_ended').val(
+        `${$('#post_id_ended_date').val()}T${$('#post_id_ended_time').val()}`
+      );
+
+      const data = $('#schedule_form').serialize();
+      $.ajax({
+        url: '{% url 'api:schedule_detail' 0 %}'.replace(0, pk),
+        method: 'PATCH',
+        data: data,
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function (data) {
+          calendar.getEventById(data.id).remove();
+          calendar.addEvent({
+            ...scheduleToEvent(data),
+            className: 'cursor-pointer'
+          });
+          $('#postScheduleModal').modal('hide');
+        }
+      })
+    }
+
+    function deleteSchedule(pk) {
+      if (confirm('삭제하시겠습니까?')) {
+        $.ajax({
+          url: '{% url 'api:schedule_detail' 0 %}'.replace(0, pk),
+          method: 'PATCH',
+          data: {'status': false},
+          headers: {'X-CSRFToken': '{{ csrf_token }}'},
+          success: function (data) {
+            calendar.getEventById(data.id).remove();
+            $('#postScheduleModal').modal('hide');
+          }
+        })
+      } else {
+        return false;
+      }
+    }
+
+    function openRetrieveScheduleModal(data) {
+      $('#retrieve_id_author').text(data.author_alias);
+      $('#retrieve_id_workspace').text(data.workspace_title);
+      $('#retrieve_id_category').text(data.category_name);
+      $('#retrieve_id_started').text(datetimeString(data.started));
+      $('#retrieve_id_ended').text(datetimeString(data.ended));
+      $('#retrieve_id_title').text(data.title);
+      $('#retrieve_id_detail').html(linebreaksbr(data.detail));
+      $('#retrieveScheduleModal').modal('show');
+    }
+
+    function openFilterScheduleModal() {
+      $('#filterScheduleModal').modal('show');
+    }
+
+    $(document).ready(function () {
+      calendar.render();
+
+      // workspace select (#post_id_workspace)
+      appendSelect('post_id_workspace', '{% url 'api:workspace_list' %}', 'id', 'title');
+
+      // category select (#post_id_category)
+      appendSelect('post_id_category', '{% url 'api:schedulecategory_list' %}', 'id', 'name');
+    })
   </script>
 {% endblock %}
