@@ -1,5 +1,6 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.generics import RetrieveAPIView, RetrieveUpdateAPIView
+from django.db.models import Q
 
 from layout.models import Setting
 from .serializer import SettingSerializer
@@ -79,6 +80,11 @@ class WorkspaceList(ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Workspace.objects.filter(status=True)
+        queryset = queryset.select_related('leader')
+        queryset = queryset.prefetch_related('attendees')
+        queryset = queryset.filter(Q(leader=self.request.user) |
+                                   Q(attendees=self.request.user))
+        queryset = queryset.distinct()
         return queryset
 
 

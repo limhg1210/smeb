@@ -59,7 +59,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
 class WorkspaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workspace
-        fields = ['id', 'title']
+        fields = ['id', 'title', 'attendees']
 
 
 class ScheduleCategorySerializer(serializers.ModelSerializer):

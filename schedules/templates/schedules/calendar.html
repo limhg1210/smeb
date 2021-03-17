@@ -1,4 +1,5 @@
 {% extends 'layout/layout.html' %}
+{% load static %}
 
 {% block title %}
   캘린더
@@ -6,6 +7,7 @@
 
 {% block css %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css">
+  <link rel="stylesheet" href="{% static 'layout/css/lib/chosen/chosen.min.css' %}">
   <style>
       .fc-daygrid-day-number, .fc-list-day-text, .fc-list-day-side-text {
           color: #212529
@@ -170,7 +172,8 @@
           </button>
         </div>
         <div class="modal-body">
-
+          <select id="filter_id_workspace" class="standardSelect"
+                  data-placeholder="업무를 선택해주세요..." multiple></select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -184,6 +187,8 @@
 {% block script %}
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/locales-all.min.js"></script>
+  <script src="{% static 'layout/js/lib/chosen/chosen.jquery.min.js' %}"></script>
+
   <script>
     const GET = JSON.parse('{{ GET | safe }}')
     const calendarEl = document.getElementById('calendar');
@@ -235,7 +240,7 @@
         },
         filterScheduleButton: {
           text: '검색',
-          click: function() {
+          click: function () {
             openFilterScheduleModal();
           }
         }
@@ -389,6 +394,17 @@
 
       // category select (#post_id_category)
       appendSelect('post_id_category', '{% url 'api:schedulecategory_list' %}', 'id', 'name');
+
+
+      appendSelect('filter_id_workspace', '{% url 'api:workspace_list' %}', 'id', 'title', false, function () {
+        $("#filter_id_workspace").chosen({
+          no_results_text: "해당 업무를 찾을 수 없습니다.",
+          width: "100%"
+        });
+
+      });
+
+
     })
   </script>
 {% endblock %}

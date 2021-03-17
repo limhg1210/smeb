@@ -85,12 +85,12 @@ $(document).ready(function () {
 
 
   // Logo Image
-  $.ajax({
-    url: '/api/layout/setting/1',
-    success: function (data) {
-      $("#logoImg").html('<img src="' + data['logo_img'] + '" alt="Logo">');
-    }
-  })
+  // $.ajax({
+  //   url: '/api/layout/setting/1',
+  //   success: function (data) {
+  //     $("#logoImg").html('<img src="' + data['logo_img'] + '" alt="Logo">');
+  //   }
+  // })
 });
 
 // global usage function
@@ -118,16 +118,21 @@ function todayInputString() {
   return `${year}-${month}-${date}`
 }
 
-function appendSelect(selectId, getUrl, value, text) {
+async function appendSelect(selectId, getUrl, value, text, isNull=true, callback=undefined) {
   $.ajax({
     url: getUrl,
     method: 'GET',
     success: function (data) {
-      $('#' + selectId).append(`<option value="">------</option>`)
+      if (isNull) {
+        $('#' + selectId).append(`<option value="">------</option>`)
+      }
       for (let i = 0; i < data.results.length; i++) {
         $('#' + selectId).append(
           `<option value='${data.results[i][value]}'>${data.results[i][text]}</option>`
         )
+      }
+      if (callback) {
+        callback();
       }
     }
   })
